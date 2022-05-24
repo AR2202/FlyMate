@@ -74,3 +74,8 @@ def preprocess_egglaying(df, column1="24h", column2="48h"):
     df["tot"] = df[column1]+ df[column2]
     removed_nans = df.dropna()
     return removed_nans
+
+
+def boxplot_groups(df, groupby, datacolumn):
+    '''plots the dataframe by groups'''
+    df.groupby(by=groupby).boxplot(column=datacolumn, subplots=False)
