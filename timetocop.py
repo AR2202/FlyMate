@@ -35,7 +35,7 @@ def kmf_copulation(seconds, in10min, observed, groupname):
     return kmf, kmf_10min
 
 
-def kmf_plot(basepath, filelist, outfilename, groupnames=[], colors=[['#bb44bb', '#d68ed6'], ['#808080', '#b2b2b2']], hour=True):
+def kmf_plot(basepath, filelist, outfilename, groupnames=[], colors=[['#bb44bb', '#d68ed6'], ['#808080', '#b2b2b2'], ['#808080', '#b2b2b2']], hour=True):
     '''loads the specified files and performs kaplan-Meier-fit and plot'''
 
     if not groupnames:
@@ -67,7 +67,8 @@ def kmf_plot(basepath, filelist, outfilename, groupnames=[], colors=[['#bb44bb',
 
 
 def logrank_cop(timetocop, groups, observed):
-    logranktest = multivariate_logrank_test(timetocop, groups, event_observed=observed)
+    logranktest = multivariate_logrank_test(
+        timetocop, groups, event_observed=observed)
     logranktest.test_statistic
     logranktest.p_value
     print(logranktest.summary)
