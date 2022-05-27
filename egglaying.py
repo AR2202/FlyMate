@@ -76,6 +76,30 @@ def preprocess_egglaying(df, column1="24h", column2="48h"):
     return removed_nans
 
 
-def boxplot_groups(df, groupby, datacolumn):
+def boxplot_groups(df, groupby, datacolumn, yaxlabel='eggs 24h',
+                   boxprops=dict(linestyle='-', linewidth=4, color='k'),
+                   medianprops=dict(linestyle='-', linewidth=4, color='k')):
     '''plots the dataframe by groups'''
-    df.groupby(by=groupby).boxplot(column=datacolumn, subplots=False)
+    fig, axes = plt.subplots(nrows=1,ncols=1, figsize=(9, 6))
+    bplot1 = df.groupby(by=groupby).boxplot(column=datacolumn,
+                                            subplots=False,
+                                            vert=True,
+                                            patch_artist=True,
+                                            showmeans=True,
+                                            boxprops=boxprops,
+                                            medianprops=medianprops,
+                                            return_type='both')
+    axes.tick_params(axis='y', direction='out')
+    axes.tick_params(axis='x', direction='out')
+    axes.yaxis.set_ticks_position('left')
+    axes.xaxis.set_ticks_position('bottom')
+    axes.spines['right'].set_visible(False)
+    axes.spines['top'].set_visible(False)
+    axes.spines['bottom'].set_visible(False)
+    for axis in ['bottom','left']:
+        axes.spines[axis].set_linewidth(2)
+
+    plt.ylim(-1, 150)
+    plt.ylabel(yaxlabel, fontsize=22)
+    plt.xlabel("")
+    plt.tick_params(axis='both', labelsize=13)
