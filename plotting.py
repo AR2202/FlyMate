@@ -63,8 +63,11 @@ def boxplot_groups(df, groupby, datacolumn, yaxlabel='eggs 24h', ylim=(-1, 150),
                                             medianprops=medianprops,
                                             return_type='both')
     axes.tick_params(axis='y', direction='out')
-    axes.tick_params(axis='x', direction='out')
+    axes.tick_params(axis='x', direction='out', labelsize= 0)
     axes.yaxis.set_ticks_position('left')
+    axes.set_ylim(ylim)
+    axes.set_xlabel("")
+    axes.set_xticklabels([])
     axes.xaxis.set_ticks_position('bottom')
     axes.spines['right'].set_visible(False)
     axes.spines['top'].set_visible(False)
