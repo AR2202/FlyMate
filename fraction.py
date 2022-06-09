@@ -32,5 +32,9 @@ def load_fraction_files(basepath, filelist, groupnames=[]):
     return dfs
 
 
-def plot_frac(df, group='group', yaxlabel='fraction', ylim=(0, 1)):
-    plotting.boxplot_groups(df, group, 0, yaxlabel=yaxlabel, ylim=ylim)
+def plot_frac(df, outputpath, group='group', yaxlabel='fraction', ylim=(0, 1)):
+    plotting.boxplot_groups(df, group, 0, outputpath, yaxlabel=yaxlabel, ylim=ylim)
+
+
+def plot_pausing(df, outputpath, group='group', yaxlabel='fraction pausing', ylim=(0, 1)):
+    plotting.boxplot_groups(df, group, 0, outputpath, yaxlabel=yaxlabel, ylim=ylim)

@@ -7,6 +7,7 @@ from scipy import io
 import glob
 import os
 
+
 def boxplots(data, colors, colors2, labels, yaxlabel, outputpath):
     '''This function plots the data in the given colours and with the provided labels
     saving the figure tho outputpath'''
@@ -49,7 +50,8 @@ def boxplots(data, colors, colors2, labels, yaxlabel, outputpath):
     plt.setp(axes, xticklabels=labels)
     plt.savefig(outputpath)
 
-def boxplot_groups(df, groupby, datacolumn, yaxlabel='eggs 24h', ylim=(-1, 150),
+
+def boxplot_groups(df, groupby, datacolumn, outputpath, yaxlabel='eggs 24h', ylim=(-1, 150),
                    boxprops=dict(linestyle='-', linewidth=4, color='k'),
                    medianprops=dict(linestyle='-', linewidth=4, color='k')):
     '''plots the dataframe by groups'''
@@ -63,7 +65,7 @@ def boxplot_groups(df, groupby, datacolumn, yaxlabel='eggs 24h', ylim=(-1, 150),
                                             medianprops=medianprops,
                                             return_type='both')
     axes.tick_params(axis='y', direction='out')
-    axes.tick_params(axis='x', direction='out', labelsize= 0)
+    axes.tick_params(axis='x', direction='out', labelsize=0)
     axes.yaxis.set_ticks_position('left')
     axes.set_ylim(ylim)
     axes.set_xlabel("")
@@ -79,3 +81,4 @@ def boxplot_groups(df, groupby, datacolumn, yaxlabel='eggs 24h', ylim=(-1, 150),
     plt.ylabel(yaxlabel, fontsize=22)
     plt.xlabel("")
     plt.tick_params(axis='both', labelsize=13)
+    plt.savefig(outputpath)

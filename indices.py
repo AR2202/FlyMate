@@ -36,9 +36,11 @@ def load_indices_files(basepath, filelist, groupnames=[]):
     return dfs
 
 
-def plot_indices(df, group='group', yaxlabels=[], ylim=(-1, 100)):
+def plot_indices(df, outputpath, outbasename, group='group', yaxlabels=[], ylim=(-1, 100)):
     data = df.drop(columns=['group'])
     if not yaxlabels:
         yaxlabels = data.columns
     for (behaviour, yaxlabel) in zip(data.columns, yaxlabels):
-        plotting.boxplot_groups(df, group, behaviour, yaxlabel=yaxlabel, ylim=ylim)
+        outfilepath = os.path.join(outputpath, outbasename+behaviour+'.eps')
+        plotting.boxplot_groups(df, group, behaviour, outfilepath,
+                                yaxlabel=yaxlabel, ylim=ylim)
