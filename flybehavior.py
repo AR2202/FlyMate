@@ -5,9 +5,10 @@ import egglaying
 import timetocop
 import indices
 import fraction
+import rpy2
 
 
-def female_beahviour(basefilenames, basepath_tracking, basepath_behaviour, outfilename,
+def female_behaviour(basefilenames, basepath_tracking, basepath_behaviour, outfilename,
                      groupnames=[],
                      yaxlabels_behaviour=[],
                      colours=[['#bb44bb', '#d68ed6'], [
@@ -49,6 +50,37 @@ def female_beahviour(basefilenames, basepath_tracking, basepath_behaviour, outfi
     '''indices of male towards female'''
     indices_df = indices.load_indices_files(basepath_tracking,
                                             indices_other_filenames,
+                                            groupnames=groupnames)
+    indices.plot_indices(indices_df, basepath_tracking, outfilename,
+                         yaxlabels=yaxlabels_behaviour)
+
+def male_behaviour(basefilenames, basepath_tracking, basepath_behaviour, outfilename,
+                     groupnames=[],
+                     yaxlabels_behaviour=[],
+                     colours=[['#bb44bb', '#d68ed6'], [
+                         '#808080', '#b2b2b2'], ['#808080', '#b2b2b2']],
+                     hour=True):
+    '''analyses files of standard male behaviour data'''
+    
+    timetocopfilenames = [basefilename +
+                          '_timetocop.csv' for basefilename in basefilenames]
+    timetocopplot = outfilename + '_timetocopulation.eps'
+    indices_filenames = [
+        basefilename + '_Indices.mat' for basefilename in basefilenames]
+    
+    outputpath_timetocop = os.path.join(basepath_behaviour, timetocopplot)
+    ''' time to copulation'''
+    timetocop.kmf_plot(basepath_behaviour,
+                       timetocopfilenames,
+                       outputpath_timetocop,
+                       groupnames=groupnames,
+                       colors=colours,
+                       hour=True)
+
+    
+    '''indices of male towards female'''
+    indices_df = indices.load_indices_files(basepath_tracking,
+                                            indices_filenames,
                                             groupnames=groupnames)
     indices.plot_indices(indices_df, basepath_tracking, outfilename,
                          yaxlabels=yaxlabels_behaviour)
