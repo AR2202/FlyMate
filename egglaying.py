@@ -42,5 +42,3 @@ def egglayingplots(basepath, filelist, outputpath, groupnames=[], column1="24h",
                             column1, outputpath, yaxlabel=yaxlabel)
     plotting.boxplot_groups(df_preprocessed, 'group',
                             'tot', outputpath, yaxlabel=yaxlabel2)
-
-
