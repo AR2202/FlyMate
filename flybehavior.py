@@ -6,6 +6,7 @@ import timetocop
 import indices
 import fraction
 import distancetravelled
+import bilateral
 import rpy2
 
 
@@ -144,11 +145,11 @@ def male_behaviour(basefilenames, basepath_tracking, basepath_behaviour, outfile
 
     '''bilateral wing extension'''
     try:
-        dist = distancetravelled.load_dist_files(
-            basepath_tracking, distfilenames)
+        bilat = bilateral.load_bilateral_file(
+            basepath_tracking, bilateralfilenames)
 
-        distancetravelled.plot_dist(
-            dist, distanceplot, yaxlabel='distance travelled female')
+        bilateral.plot_bilateral(
+            bilat, distanceplot, yaxlabel='distance travelled female')
     except FileNotFoundError:
         print("unable to do distance travelled analysis: no such file")
     except IndexError:
