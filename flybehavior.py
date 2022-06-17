@@ -104,6 +104,9 @@ def male_behaviour(basefilenames, basepath_tracking, basepath_behaviour, outfile
     outputpath_timetocop = os.path.join(basepath_behaviour, timetocopplot)
     distfilenames = [basefilename +
                      '_mean_dist_other.mat' for basefilename in basefilenames]
+    bilateralfilenames = [basefilename +
+                          '_bilateral_WingIndex.mat' for basefilename in basefilenames]
+
     distanceplot = outfilename + '_distance_travelled.eps'
     ''' time to copulation'''
     try:
@@ -128,6 +131,18 @@ def male_behaviour(basefilenames, basepath_tracking, basepath_behaviour, outfile
     except IndexError:
         print("unable to perform index analysis: the file is empty")
         '''distance travelled of female paired with this male'''
+    try:
+        dist = distancetravelled.load_dist_files(
+            basepath_tracking, distfilenames)
+
+        distancetravelled.plot_dist(
+            dist, distanceplot, yaxlabel='distance travelled female')
+    except FileNotFoundError:
+        print("unable to do distance travelled analysis: no such file")
+    except IndexError:
+        print("unable to perform distance travelled analysis: the file appears to be empty")
+
+    '''bilateral wing extension'''
     try:
         dist = distancetravelled.load_dist_files(
             basepath_tracking, distfilenames)
