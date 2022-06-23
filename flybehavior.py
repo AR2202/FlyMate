@@ -10,6 +10,28 @@ import bilateral
 import rpy2
 
 
+def write_csv_files(basefilenames, basepath_behaviour):
+
+    for basefile in basefilenames:
+        excelfile = basefile + '.xlsx'
+        filepath = os.path.join(basepath_behaviour, excelfile)
+        timetocopfilename = basefile + '_timetocop.csv'
+        eggfilename = basefile + '_egglaying.csv'
+        df = pd.read_excel(filepath, header=None)
+        timetocopulation = df[3]
+        eggs24h = df[6]
+        eggs48h = df[7]
+        eggtable = pd.concat(
+            (eggs24h.rename('24h'), eggs48h.rename('48h')), axis=1)
+
+        outputpath_timetocop = os.path.join(
+            basepath_behaviour, timetocopfilename)
+        timetocopulation.to_csv(outputpath_timetocop,
+                                index=False, header=False)
+        outputpath_egglaying = os.path.join(basepath_behaviour, eggfilename)
+        eggtable.to_csv(outputpath_egglaying, index=False)
+
+
 def female_behaviour(basefilenames, basepath_tracking, basepath_behaviour, outfilename,
                      groupnames=[],
                      yaxlabels_behaviour=[],
