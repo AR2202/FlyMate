@@ -11,6 +11,7 @@ import rpy2
 
 
 def write_csv_files(basefilenames, basepath_behaviour):
+    """read in excel file of behaviour data and make individual csv files for egglaying and time to copulation"""
 
     for basefile in basefilenames:
         excelfile = basefile + '.xlsx'
@@ -36,7 +37,7 @@ def female_behaviour(basefilenames, basepath_tracking, basepath_behaviour, outfi
                      groupnames=[],
                      yaxlabels_behaviour=[],
                      colours=[['#bb44bb', '#d68ed6'], [
-                         '#808080', '#b2b2b2'], ['#808080', '#b2b2b2']],
+                         '#E3B6E3', '#F8EDF8'], ['#823082', '#E4B5E4'], ['#808080', '#b2b2b2']],
                      hour=True):
     '''analyses files of standard female behaviour data'''
     eggfilenames = [basefilename +
@@ -73,7 +74,8 @@ def female_behaviour(basefilenames, basepath_tracking, basepath_behaviour, outfi
         egglaying.egglayingplots(basepath_behaviour,
                                  eggfilenames,
                                  outputpath_egglaying,
-                                 groupnames=groupnames)
+                                 groupnames=groupnames,
+                                 colours=colours)
     except FileNotFoundError:
         print("unable to do  egglaying analysis")
     '''pausing'''
@@ -93,7 +95,7 @@ def female_behaviour(basefilenames, basepath_tracking, basepath_behaviour, outfi
                                                 indices_other_filenames,
                                                 groupnames=groupnames)
         indices.plot_indices(indices_df, basepath_tracking, outfilename,
-                             yaxlabels=yaxlabels_behaviour)
+                             yaxlabels=yaxlabels_behaviour, colours=colours)
     except FileNotFoundError:
         print("unable to do indices analysis: no such file")
     except IndexError:

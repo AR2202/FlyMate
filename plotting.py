@@ -52,18 +52,30 @@ def boxplots(data, colors, colors2, labels, yaxlabel, outputpath):
 
 
 def boxplot_groups(df, groupby, datacolumn, outputpath, yaxlabel='eggs 24h', ylim=(-1, 150),
-                   boxprops=dict(linestyle='-', linewidth=4, color='k'),
-                   medianprops=dict(linestyle='-', linewidth=4, color='k')):
+                   boxprops=dict(linestyle='-', linewidth=1, color='k'),
+                   medianprops=dict(linestyle='-', linewidth=1, color='white'),
+                   meanprops={"marker": "s", "markerfacecolor": "white",
+                              "markeredgecolor": "white"},
+                   whiskerprops=dict(
+                       linestyle='-', linewidth=1.0, color='gray'),
+                   colours=[['#bb44bb', '#d68ed6'], [
+                       '#E3B6E3', '#F8EDF8'], ['#823082', '#E4B5E4'], ['#808080', '#b2b2b2']]):
     '''plots the dataframe by groups'''
+
     fig, axes = plt.subplots(nrows=1, ncols=1, figsize=(9, 6))
-    bplot1 = df.groupby(by=groupby).boxplot(column=datacolumn,
-                                            subplots=False,
-                                            vert=True,
-                                            patch_artist=True,
-                                            showmeans=True,
-                                            boxprops=boxprops,
-                                            medianprops=medianprops,
-                                            return_type='both')
+    ax, bplot1 = df.groupby(by=groupby).boxplot(column=datacolumn,
+                                                subplots=False,
+                                                vert=True,
+                                                patch_artist=True,
+
+                                                showmeans=True,
+                                                boxprops=boxprops,
+                                                medianprops=medianprops,
+                                                meanprops=meanprops,
+                                                whiskerprops=whiskerprops,
+
+
+                                                return_type='both')
     axes.tick_params(axis='y', direction='out')
     axes.tick_params(axis='x', direction='out', labelsize=0)
     axes.yaxis.set_ticks_position('left')
@@ -76,9 +88,13 @@ def boxplot_groups(df, groupby, datacolumn, outputpath, yaxlabel='eggs 24h', yli
     axes.spines['bottom'].set_visible(False)
     for axis in ['bottom', 'left']:
         axes.spines[axis].set_linewidth(2)
+    for box, colourset in zip(bplot1['boxes'], colours):
+        box.set_color(colourset[0])
+        box.set_facecolor(colourset[1])
 
     plt.ylim(ylim)
     plt.ylabel(yaxlabel, fontsize=22)
     plt.xlabel("")
     plt.tick_params(axis='both', labelsize=13)
+
     plt.savefig(outputpath)

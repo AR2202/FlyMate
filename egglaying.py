@@ -33,12 +33,13 @@ def preprocess_egglaying(df, column1="24h", column2="48h"):
     return removed_nans
 
 
-def egglayingplots(basepath, filelist, outputpath, groupnames=[], column1="24h", column2="48h", yaxlabel='eggs 24h', yaxlabel2='eggs 48h'):
+def egglayingplots(basepath, filelist, outputpath, groupnames=[], column1="24h", column2="48h", yaxlabel='eggs 24h', yaxlabel2='eggs 48h', colours=[['#bb44bb', '#d68ed6'], [
+        '#E3B6E3', '#F8EDF8'], ['#823082', '#E4B5E4'], ['#808080', '#b2b2b2']]):
     '''loads data and performs egglaying plots'''
     df = read_egglaying(basepath, filelist, groupnames=groupnames)
     df_preprocessed = preprocess_egglaying(
         df, column1=column1, column2=column2)
     plotting.boxplot_groups(df_preprocessed, 'group',
-                            column1, outputpath, yaxlabel=yaxlabel)
+                            column1, outputpath, yaxlabel=yaxlabel, colours=colours)
     plotting.boxplot_groups(df_preprocessed, 'group',
-                            'tot', outputpath, yaxlabel=yaxlabel2)
+                            'tot', outputpath, yaxlabel=yaxlabel2, colours=colours)
