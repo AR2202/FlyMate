@@ -52,7 +52,7 @@ def boxplots(data, colors, colors2, labels, yaxlabel, outputpath):
 
 
 def boxplot_groups(df, groupby, datacolumn, outputpath, yaxlabel='eggs 24h', ylim=(-1, 150),
-                   boxprops=dict(linestyle='-', linewidth=1, color='k'),
+                   boxprops=dict(linestyle='-', linewidth=1, color='k'), sort=False,
                    medianprops=dict(linestyle='-', linewidth=1, color='white'),
                    meanprops={"marker": "s", "markerfacecolor": "white",
                               "markeredgecolor": "white"},
@@ -63,19 +63,19 @@ def boxplot_groups(df, groupby, datacolumn, outputpath, yaxlabel='eggs 24h', yli
     '''plots the dataframe by groups'''
 
     fig, axes = plt.subplots(nrows=1, ncols=1, figsize=(9, 6))
-    ax, bplot1 = df.groupby(by=groupby).boxplot(column=datacolumn,
-                                                subplots=False,
-                                                vert=True,
-                                                patch_artist=True,
+    ax, bplot1 = df.groupby(by=groupby, sort=sort).boxplot(column=datacolumn,
+                                                           subplots=False,
+                                                           vert=True,
+                                                           patch_artist=True,
 
-                                                showmeans=True,
-                                                boxprops=boxprops,
-                                                medianprops=medianprops,
-                                                meanprops=meanprops,
-                                                whiskerprops=whiskerprops,
+                                                           showmeans=True,
+                                                           boxprops=boxprops,
+                                                           medianprops=medianprops,
+                                                           meanprops=meanprops,
+                                                           whiskerprops=whiskerprops,
 
 
-                                                return_type='both')
+                                                           return_type='both')
     axes.tick_params(axis='y', direction='out')
     axes.tick_params(axis='x', direction='out', labelsize=0)
     axes.yaxis.set_ticks_position('left')

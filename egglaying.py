@@ -40,6 +40,6 @@ def egglayingplots(basepath, filelist, outputpath, groupnames=[], column1="24h",
     df_preprocessed = preprocess_egglaying(
         df, column1=column1, column2=column2)
     plotting.boxplot_groups(df_preprocessed, 'group',
-                            column1, outputpath, yaxlabel=yaxlabel, colours=colours)
+                            column1, outputpath, yaxlabel=yaxlabel, colours=colours, sort=False)
     plotting.boxplot_groups(df_preprocessed, 'group',
-                            'tot', outputpath, yaxlabel=yaxlabel2, colours=colours)
+                            'tot', outputpath, yaxlabel=yaxlabel2, colours=colours, sort=False)

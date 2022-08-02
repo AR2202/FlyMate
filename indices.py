@@ -44,4 +44,4 @@ def plot_indices(df, outputpath, outbasename, group='group', yaxlabels=[], ylim=
     for (behaviour, yaxlabel) in zip(data.columns, yaxlabels):
         outfilepath = os.path.join(outputpath, outbasename+behaviour+'.eps')
         plotting.boxplot_groups(df, group, behaviour, outfilepath,
-                                yaxlabel=yaxlabel, ylim=ylim, colours=colours)
+                                yaxlabel=yaxlabel, ylim=ylim, colours=colours, sort=False)

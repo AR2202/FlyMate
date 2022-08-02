@@ -83,7 +83,7 @@ def female_behaviour(basefilenames, basepath_tracking, basepath_behaviour, outfi
         pausing_df = fraction.load_fraction_files(basepath_tracking,
                                                   pausingfilenames,
                                                   groupnames=groupnames)
-        fraction.plot_pausing(pausing_df, outputpath_pausing)
+        fraction.plot_pausing(pausing_df, outputpath_pausing, colours=colours)
     except FileNotFoundError:
         print("unable to do pausing analysis")
     except IndexError:
@@ -105,7 +105,7 @@ def female_behaviour(basefilenames, basepath_tracking, basepath_behaviour, outfi
     try:
         dist = distancetravelled.load_dist_files(
             basepath_tracking, distfilenames)
-        distancetravelled.plot_dist(dist, distanceplot)
+        distancetravelled.plot_dist(dist, distanceplot, colours=colours)
     except FileNotFoundError:
         print("unable to do distance travelled analysis: no such file")
     except IndexError:
@@ -150,7 +150,7 @@ def male_behaviour(basefilenames, basepath_tracking, basepath_behaviour, outfile
                                                 indices_filenames,
                                                 groupnames=groupnames)
         indices.plot_indices(indices_df, basepath_tracking, outfilename,
-                             yaxlabels=yaxlabels_behaviour)
+                             yaxlabels=yaxlabels_behaviour, colours=colours)
     except FileNotFoundError:
         print("unable to do indices analysis: no such file")
     except IndexError:
@@ -161,7 +161,7 @@ def male_behaviour(basefilenames, basepath_tracking, basepath_behaviour, outfile
             basepath_tracking, distfilenames)
 
         distancetravelled.plot_dist(
-            dist, distanceplot, yaxlabel='distance travelled female')
+            dist, distanceplot, yaxlabel='distance travelled female', colours=colours)
     except FileNotFoundError:
         print("unable to do distance travelled analysis: no such file")
     except IndexError:
@@ -173,7 +173,7 @@ def male_behaviour(basefilenames, basepath_tracking, basepath_behaviour, outfile
             basepath_tracking, bilateralfilenames)
 
         bilateral.plot_bilateral(
-            bilat, distanceplot, yaxlabel='distance travelled female')
+            bilat, distanceplot, yaxlabel='distance travelled female', colours=colours)
     except FileNotFoundError:
         print("unable to do distance travelled analysis: no such file")
     except IndexError:

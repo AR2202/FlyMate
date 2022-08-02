@@ -1,3 +1,4 @@
+from turtle import color
 import matplotlib.pyplot as plt
 import numpy as np
 import pandas as pd
@@ -32,9 +33,13 @@ def load_fraction_files(basepath, filelist, groupnames=[]):
     return dfs
 
 
-def plot_frac(df, outputpath, group='group', yaxlabel='fraction', ylim=(0, 1)):
-    plotting.boxplot_groups(df, group, 0, outputpath, yaxlabel=yaxlabel, ylim=ylim)
+def plot_frac(df, outputpath, group='group', yaxlabel='fraction', ylim=(0, 1), colours=[['#bb44bb', '#d68ed6'], [
+        '#E3B6E3', '#F8EDF8'], ['#823082', '#E4B5E4'], ['#808080', '#b2b2b2']]):
+    plotting.boxplot_groups(df, group, 0, outputpath,
+                            yaxlabel=yaxlabel, ylim=ylim, colours=colours)
 
 
-def plot_pausing(df, outputpath, group='group', yaxlabel='fraction pausing', ylim=(0, 1)):
-    plotting.boxplot_groups(df, group, 0, outputpath, yaxlabel=yaxlabel, ylim=ylim)
+def plot_pausing(df, outputpath, group='group', yaxlabel='fraction pausing', ylim=(0, 1), colours=[['#bb44bb', '#d68ed6'], [
+        '#E3B6E3', '#F8EDF8'], ['#823082', '#E4B5E4'], ['#808080', '#b2b2b2']]):
+    plotting.boxplot_groups(df, group, 0, outputpath,
+                            yaxlabel=yaxlabel, ylim=ylim, colours=colours)
