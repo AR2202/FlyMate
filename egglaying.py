@@ -39,7 +39,9 @@ def egglayingplots(basepath, filelist, outputpath, groupnames=[], column1="24h",
     df = read_egglaying(basepath, filelist, groupnames=groupnames)
     df_preprocessed = preprocess_egglaying(
         df, column1=column1, column2=column2)
+    outputpath24h = outputpath.replace('.eps', '_24h.eps')
+    outputpath48h = outputpath24h.replace('24h', '48h')
     plotting.boxplot_groups(df_preprocessed, 'group',
-                            column1, outputpath, yaxlabel=yaxlabel, colours=colours, sort=False)
+                            column1, outputpath24h, yaxlabel=yaxlabel, colours=colours, sort=False)
     plotting.boxplot_groups(df_preprocessed, 'group',
-                            'tot', outputpath, yaxlabel=yaxlabel2, colours=colours, sort=False)
+                            'tot', outputpath48h, yaxlabel=yaxlabel2, colours=colours, sort=False)

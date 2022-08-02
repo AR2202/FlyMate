@@ -53,6 +53,7 @@ def female_behaviour(basefilenames, basepath_tracking, basepath_behaviour, outfi
     distfilenames = [basefilename +
                      '_mean_dist.mat' for basefilename in basefilenames]
     distanceplot = outfilename + '_distance_travelled.eps'
+    distancepath = os.path.join(basepath_tracking, distanceplot)
 
     pausingplot = outfilename + '_pausing.eps'
     outputpath_pausing = os.path.join(basepath_tracking, pausingplot)
@@ -105,7 +106,7 @@ def female_behaviour(basefilenames, basepath_tracking, basepath_behaviour, outfi
     try:
         dist = distancetravelled.load_dist_files(
             basepath_tracking, distfilenames)
-        distancetravelled.plot_dist(dist, distanceplot, colours=colours)
+        distancetravelled.plot_dist(dist, distancepath, colours=colours)
     except FileNotFoundError:
         print("unable to do distance travelled analysis: no such file")
     except IndexError:
@@ -133,6 +134,9 @@ def male_behaviour(basefilenames, basepath_tracking, basepath_behaviour, outfile
                           '_bilateral_WingIndex.mat' for basefilename in basefilenames]
 
     distanceplot = outfilename + '_distance_travelled.eps'
+    distancepath = os.path.join(basepath_tracking, distanceplot)
+    bilatplot = outfilename + '_bilateral_wing_extension.eps'
+    bilatpath = os.path.join(basepath_tracking, bilatplot)
     ''' time to copulation'''
     try:
         timetocop.kmf_plot(basepath_behaviour,
@@ -161,7 +165,7 @@ def male_behaviour(basefilenames, basepath_tracking, basepath_behaviour, outfile
             basepath_tracking, distfilenames)
 
         distancetravelled.plot_dist(
-            dist, distanceplot, yaxlabel='distance travelled female', colours=colours)
+            dist, distancepath, yaxlabel='distance travelled female', colours=colours)
     except FileNotFoundError:
         print("unable to do distance travelled analysis: no such file")
     except IndexError:
@@ -173,7 +177,7 @@ def male_behaviour(basefilenames, basepath_tracking, basepath_behaviour, outfile
             basepath_tracking, bilateralfilenames)
 
         bilateral.plot_bilateral(
-            bilat, distanceplot, yaxlabel='distance travelled female', colours=colours)
+            bilat, bilatpath, yaxlabel='distance travelled female', colours=colours)
     except FileNotFoundError:
         print("unable to do distance travelled analysis: no such file")
     except IndexError:
