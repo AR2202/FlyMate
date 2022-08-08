@@ -26,16 +26,20 @@ def load_copulation(basepath, filename):
     return seconds, in10min, observed
 
 
-def kmf_copulation(seconds, in10min, observed, groupname):
+def kmf_copulation(seconds, in10min, observed, groupname, in_min=True):
     '''performs kaplan-Meier-fit'''
     kmf = KaplanMeierFitter(label=groupname)
-    kmf.fit(seconds, event_observed=observed)
+    minutes = [s/60.0 for s in seconds]
+    if in_min:
+        kmf.fit(minutes, event_observed=observed)
+    else:
+        kmf.fit(seconds, event_observed=observed)
     kmf_10min = KaplanMeierFitter(label=groupname)
     kmf_10min.fit(in10min, event_observed=observed)
     return kmf, kmf_10min
 
 
-def kmf_plot(basepath, filelist, outfilename, groupnames=[], colors=[['#bb44bb', '#d68ed6'], ['#808080', '#b2b2b2'], ['#808080', '#b2b2b2']], hour=True):
+def kmf_plot(basepath, filelist, outfilename, groupnames=[], colors=[['#bb44bb', '#d68ed6'], ['#808080', '#b2b2b2'], ['#808080', '#b2b2b2']], hour=True, xlabel='min'):
     '''loads the specified files and performs kaplan-Meier-fit and plot'''
 
     if not groupnames:
@@ -46,7 +50,7 @@ def kmf_plot(basepath, filelist, outfilename, groupnames=[], colors=[['#bb44bb',
     groups = []
     observed_all = []
     fig, ax = plt.subplots()
-    ax.set_xlabel('s')
+
     ax.set_ylabel('fraction copulated')
 
     for (filename, (groupname, color)) in zip(filelist, zip(groupnames, colors)):
@@ -62,6 +66,7 @@ def kmf_plot(basepath, filelist, outfilename, groupnames=[], colors=[['#bb44bb',
         groupvals = [group for data in observed]
         groups = groups + groupvals
         group += 1
+    ax.set_xlabel(xlabel)
     plt.savefig(outputpath)
     logrank_cop(timetocop, groups, observed_all)
 
