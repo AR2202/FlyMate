@@ -64,3 +64,21 @@ egglaying_stats <- function(filenames, datapath) {
    pairewiset
    
 }
+#' stats for indices csv files
+#'
+#' This function reads multiple files specified as filenames from a datapath and prints stats of egglaying
+#' @param indicesfile A csv file containing indices of behaviour tracking for multiple gentopyes 
+#' (as output by python function flybehaviour.write_indices_csv_file)
+#' @param datapath A string. Path to csv file
+#' #' @examples
+#'  indices_stats(filename, 'path/to/data')
+indices_stats <- function(indicesfile, datapath) {
+   indicespath = file.path(trackingpath, indicesfile)
+   indices <- read_csv(indicespath)
+   data_indices <- subset( indices, select = -group )
+   kw <- sapply(data_indices, function(x) kruskal.test(x ~ indices$group))
+   print(kw)
+   sapply(data_indices, function(x) pairwise.wilcox.test(x,indices$group, p.adjust.method = "BH"))
+   # todo - multiple comparison correction
+
+}
