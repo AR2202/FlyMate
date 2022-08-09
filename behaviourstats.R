@@ -7,9 +7,29 @@ library(readr)
 library(tidyr)
 library(rstatix)
 
+#' reading csv files to dataframe
+#'
+#' This function reads multiple files specified as filenames from a datapath and returns dataframe list
+#' @param filenames A list of strings. Contains filenames of csv files
+#' @param datapath A string. Path to csv files
+#' @return Returns a dataframe. egg counts
+#' @examples
+#' # filenames <- list('eggfile1.csv', 'eggfile2.csv', 'eggfile3.csv')
+#' dfs <- csvs_to_df(filenames, 'path/to/data')
+csvs_to_df <- function(filenames, datapath){
+   filepaths <- lapply( filenames, function(x) file.path(datapath, x))
+   my_data <- lapply(filepaths, read_csv)
+   for(i in 1:length(my_data)) {
+   my_data[[i]] <- my_data[[i]] %>% 
+      mutate(group = i)
+   my_data[[i]]$group <-factor(my_data[[i]]$group)
+   }
+   return(my_data)
+
+}
 #' reading egglaying csv files
 #'
-#' This function reads multiple files specified as filenames from a datapath and prints statistical analysis results
+#' This function reads multiple files specified as filenames from a datapath and returns dataframe of egg counts
 #' @param filenames A list of strings. Contains filenames of csv files
 #' @param datapath A string. Path to csv files
 #' @return Returns a dataframe. egg counts
@@ -18,22 +38,17 @@ library(rstatix)
 #' egg_df <- egglaying_df(filenames, 'path/to/data')
 
 egglaying_df <- function(filenames, datapath) {
-   filepaths <- lapply( filenames, function(x) file.path(datapath, x))
-   my_data <- lapply(filepaths, read_csv)
-   for(i in 1:length(my_data)) {
-   my_data[[i]] <- my_data[[i] ] %>% 
-      mutate(group = i)
-   my_data[[i]]$group <-factor(my_data[[i]]$group)
-  
-}
-   
-   egg_df <- do.call('rbind',my_data)%>% rename(day1 = `24h`)%>% rename(day2 = `48h`)%>% mutate(total= day1 +day2)
+   my_data <- csvs_to_df(filenames, datapath)
+   egg_df <- do.call('rbind',my_data) %>% 
+      rename(day1 = `24h`) %>%
+      rename(day2 = `48h`) %>%
+      mutate(total= day1 +day2)
    return(egg_df)
 }
 
 #' stats for egglaying csv files
 #'
-#' This function reads multiple files specified as filenames from a datapath and returns a dataframe of egg counts
+#' This function reads multiple files specified as filenames from a datapath and prints stats of egglaying
 #' @param filenames A list of strings. Contains filenames of csv files
 #' @param datapath A string. Path to csv files
 #' #' @examples
@@ -44,7 +59,8 @@ egglaying_stats <- function(filenames, datapath) {
    egg_df <- egglaying_df(filenames, datapath)
    linear_model_eggs <- lm(total ~group, data = egg_df)
    summary(linear_model_eggs)
-   pairewiset <- egg_df %>% pairwise_t_test(total~ group,p.adjust.method = "holm")
+   pairewiset <- egg_df %>% 
+      pairwise_t_test(total~ group,p.adjust.method = "holm")
    pairewiset
    
 }

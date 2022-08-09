@@ -11,7 +11,8 @@ import rpy2
 
 
 def write_csv_files(basefilenames, basepath_behaviour):
-    """read in excel file of behaviour data and make individual csv files for egglaying and time to copulation"""
+    """read in excel file of behaviour data and make individual csv files for 
+    egglaying and time to copulation"""
 
     for basefile in basefilenames:
         excelfile = basefile + '.xlsx'
@@ -33,11 +34,32 @@ def write_csv_files(basefilenames, basepath_behaviour):
         eggtable.to_csv(outputpath_egglaying, index=False)
 
 
-def female_behaviour(basefilenames, basepath_tracking, basepath_behaviour, outfilename,
+def write_indices_csv_files(basefilenames, basepath_behaviour_analyisis,
+                            outputpath, outfilename, other=False):
+    """read .mat file of behaviour data and make indices csv files"""
+
+    if other:
+        matfilenames = [basefilename +
+                        '_Indices_other.mat' for basefilename in basefilenames]
+        outputfile = os.path.join(
+            outputpath, outfilename + '_Indices_other.csv')
+    else:
+        matfilenames = [basefilename +
+                        '_Indices.mat' for basefilename in basefilenames]
+        outputfile = os.path.join(outputpath, outfilename + '_Indices.csv')
+
+    dfs = indices.load_indices_files(
+        basepath_behaviour_analyisis, matfilenames)
+    dfs.to_csv(outputfile, index=False)
+
+
+def female_behaviour(basefilenames, basepath_tracking, basepath_behaviour,
+                     outfilename,
                      groupnames=[],
                      yaxlabels_behaviour=[],
-                     colours=[['#bb44bb', '#d68ed6'], [
-                         '#E3B6E3', '#F8EDF8'], ['#823082', '#E4B5E4'], ['#808080', '#b2b2b2']],
+                     colours=[['#bb44bb', '#d68ed6'],
+                              ['#E3B6E3', '#F8EDF8'], ['#823082', '#E4B5E4'],
+                              ['#808080', '#b2b2b2']],
                      hour=True):
     '''analyses files of standard female behaviour data'''
     eggfilenames = [basefilename +
