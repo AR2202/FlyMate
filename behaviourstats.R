@@ -64,11 +64,3 @@ egglaying_stats <- function(filenames, datapath) {
    pairewiset
    
 }
-# Some sample data
-eggfile = "aDN_Chrimson_Female_lighton_egglaying.csv"
-eggfile2 = "Otd_Chrimson_Female_lighton_egglaying.csv"
-eggfile3 = "aDN_stop_Chrimson_Female_lighton_egglaying.csv"
-behaviourpath = "/Volumes/LaCie/Projects/aDN_MB/behaviour/"
-
-filenames <- list(eggfile, eggfile2, eggfile3)
-egglaying_stats(filenames, behaviourpath)
