@@ -77,8 +77,13 @@ indices_stats <- function(indicesfile, datapath) {
    indices <- read_csv(indicespath)
    data_indices <- subset( indices, select = -group )
    kw <- sapply(data_indices, function(x) kruskal.test(x ~ indices$group))
-   print(kw)
-   sapply(data_indices, function(x) pairwise.wilcox.test(x,indices$group, p.adjust.method = "BH"))
+   pvals = kw[3,]
+   pvals_adj = list()
+   pvals_adj$kruskal = p.adjust(pvals, "holm")
+ 
+   pvals_adj$wilcox <- sapply(data_indices, function(x) pairwise.wilcox.test(x,indices$group, p.adjust.method = "BH"))
+   return (pvals_adj)
    # todo - multiple comparison correction
+   
 
 }
