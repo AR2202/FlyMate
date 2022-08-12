@@ -14,7 +14,7 @@ Recommended Workflow:
 ## Modules
 [Flybehaviour](#flybehaviour)
 
-[Behaviourstats](#flybehaviour)
+[Behaviourstats](#stats)
 
 <a name="flybehavior"></a>
 ## Flybehaviour
@@ -305,7 +305,7 @@ prints stats results to terminal
 
 [Back to top](#top)
 
-[Up](#behaviourstat)
+[Up](#stats)
 
 <a name="egglayingstats"></a>
 `egglaying_stats(filenames, datapath)`
@@ -334,7 +334,7 @@ prints stats results to terminal
 
 [Back to top](#top)
 
-[Up](#behaviourstats)
+[Up](#stats)
 
 <a name="indices_stats"></a>
 `indices_stats(indicesfile, datapath)`
@@ -360,6 +360,6 @@ list of p-values for Kruskal-Wallis and Wilcox tests, adjusted for multiple comp
 
 [Back to top](#top)
 
-[Up](#behaviourstats)
+[Up](#stats)
 
 [Previous](#egglayingstats)
