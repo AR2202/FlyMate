@@ -1,6 +1,6 @@
 # FlyMate
 Fly mating behaviour analysis scripts
 
-WIP
+Please read Documentation for more infos:
 
-Documentation to follow
+https://github.com/AR2202/FlyMate/blob/master/Documentation.md

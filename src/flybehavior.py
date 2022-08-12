@@ -71,7 +71,8 @@ def female_behaviour(basefilenames, basepath_tracking, basepath_behaviour,
     indices_other_filenames = [
         basefilename + '_Indices_other.mat' for basefilename in basefilenames]
     pausingfilenames = [
-        basefilename + '_pausing_mean_fraction_frames.mat' for basefilename in basefilenames]
+        basefilename + '_pausing_mean_fraction_frames.mat'
+        for basefilename in basefilenames]
     distfilenames = [basefilename +
                      '_mean_dist.mat' for basefilename in basefilenames]
     distanceplot = outfilename + '_distance_travelled.eps'
@@ -135,7 +136,8 @@ def female_behaviour(basefilenames, basepath_tracking, basepath_behaviour,
         print("unable to perform distance travelled analysis: the file appears to be empty")
 
 
-def male_behaviour(basefilenames, basepath_tracking, basepath_behaviour, outfilename,
+def male_behaviour(basefilenames, basepath_tracking, basepath_behaviour,
+                   outfilename,
                    groupnames=[],
                    yaxlabels_behaviour=[],
                    colours=[['#bb44bb', '#d68ed6'], [

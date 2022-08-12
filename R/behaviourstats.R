@@ -66,7 +66,7 @@ egglaying_stats <- function(filenames, datapath) {
 }
 #' stats for indices csv files
 #'
-#' This function reads multiple files specified as filenames from a datapath and prints stats of egglaying
+#' This function readindices file specified as filenames from a datapath and prints stats of indices
 #' @param indicesfile A csv file containing indices of behaviour tracking for multiple gentopyes 
 #' (as output by python function flybehaviour.write_indices_csv_file)
 #' @param datapath A string. Path to csv file
