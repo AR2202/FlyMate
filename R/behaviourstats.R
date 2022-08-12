@@ -22,7 +22,7 @@ csvs_to_df <- function(filenames, datapath){
    for(i in 1:length(my_data)) {
    my_data[[i]] <- my_data[[i]] %>% 
       mutate(group = i)
-   my_data[[i]]$group <-factor(my_data[[i]]$group)
+   my_data[[i]]$group <- factor(my_data[[i]]$group)
    }
    return(my_data)
 
@@ -42,7 +42,7 @@ egglaying_df <- function(filenames, datapath) {
    egg_df <- do.call('rbind',my_data) %>% 
       rename(day1 = `24h`) %>%
       rename(day2 = `48h`) %>%
-      mutate(total= day1 +day2)
+      mutate(total = day1 +day2)
    return(egg_df)
 }
 
