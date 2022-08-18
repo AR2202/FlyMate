@@ -57,9 +57,8 @@ def female_behaviour(basefilenames, basepath_tracking, basepath_behaviour,
                      outfilename,
                      groupnames=[],
                      yaxlabels_behaviour=[],
-                     colours=[['#bb44bb', '#d68ed6'],
-                              ['#E3B6E3', '#F8EDF8'], ['#823082', '#E4B5E4'],
-                              ['#808080', '#b2b2b2']],
+                     colours=[['#bb44bb', '#d68ed6'], [
+                         '#404040', '#737373'], ['#808080', '#b2b2b2']],
                      hour=True):
     '''analyses files of standard female behaviour data'''
     eggfilenames = [basefilename +
@@ -141,7 +140,7 @@ def male_behaviour(basefilenames, basepath_tracking, basepath_behaviour,
                    groupnames=[],
                    yaxlabels_behaviour=[],
                    colours=[['#bb44bb', '#d68ed6'], [
-                       '#808080', '#b2b2b2'], ['#808080', '#b2b2b2']],
+                       '#404040', '#737373'], ['#808080', '#b2b2b2']],
                    hour=True):
     '''analyses files of standard male behaviour data'''
 

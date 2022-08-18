@@ -58,8 +58,7 @@ def boxplot_groups(df, groupby, datacolumn, outputpath, yaxlabel='eggs 24h', yli
                               "markeredgecolor": "white"},
                    whiskerprops=dict(
                        linestyle='-', linewidth=1.0, color='gray'),
-                   colours=[['#bb44bb', '#d68ed6'], [
-                       '#E3B6E3', '#F8EDF8'], ['#823082', '#E4B5E4'], ['#808080', '#b2b2b2']]):
+                   colours=[['#bb44bb', '#d68ed6'], ['#404040', '#737373'], ['#808080', '#b2b2b2']],):
     '''plots the dataframe by groups'''
 
     fig, axes = plt.subplots(nrows=1, ncols=1, figsize=(9, 6))
@@ -86,6 +85,7 @@ def boxplot_groups(df, groupby, datacolumn, outputpath, yaxlabel='eggs 24h', yli
     axes.spines['right'].set_visible(False)
     axes.spines['top'].set_visible(False)
     axes.spines['bottom'].set_visible(False)
+    axes.grid(False)
     for axis in ['bottom', 'left']:
         axes.spines[axis].set_linewidth(2)
     for box, colourset in zip(bplot1['boxes'], colours):
