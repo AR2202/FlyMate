@@ -59,11 +59,17 @@ def female_behaviour(basefilenames, basepath_tracking, basepath_behaviour,
                      yaxlabels_behaviour=[],
                      colours=[['#bb44bb', '#d68ed6'], [
                          '#404040', '#737373'], ['#808080', '#b2b2b2']],
-                     hour=True):
+                     hour=True,
+                     include_virgin_egglaying=True,
+                     sheetname_virgin_egglaying='virgin_egg_counts',
+                     columname_virgin_egg_counts='group housed'):
     '''analyses files of standard female behaviour data'''
+    excelfilenames = [basefilename +
+                      '.xlsx' for basefilename in basefilenames]
     eggfilenames = [basefilename +
                     '_egglaying.csv' for basefilename in basefilenames]
     eggplotname = outfilename + '_egglaying.eps'
+    eggplotname_virgin = outfilename + '_egglaying_virgin.eps'
     timetocopfilenames = [basefilename +
                           '_timetocop.csv' for basefilename in basefilenames]
     timetocopplot = outfilename + '_timetocopulation.eps'
@@ -81,6 +87,8 @@ def female_behaviour(basefilenames, basepath_tracking, basepath_behaviour,
     outputpath_pausing = os.path.join(basepath_tracking, pausingplot)
     outputpath_egglaying = os.path.join(basepath_behaviour, eggplotname)
     outputpath_timetocop = os.path.join(basepath_behaviour, timetocopplot)
+    outputpath_virgin_egglaying = os.path.join(
+        basepath_behaviour, eggplotname_virgin)
     ''' time to copulation'''
     try:
         timetocop.kmf_plot(basepath_behaviour,
@@ -91,6 +99,9 @@ def female_behaviour(basefilenames, basepath_tracking, basepath_behaviour,
                            hour=hour)
     except FileNotFoundError:
         print("unable to do time to copulation analysis: no such file")
+    except Exception as e:
+        print("unable to do time to copulation analysis")
+        print(e)
 
     '''egglaying'''
     try:
@@ -100,7 +111,11 @@ def female_behaviour(basefilenames, basepath_tracking, basepath_behaviour,
                                  groupnames=groupnames,
                                  colours=colours)
     except FileNotFoundError:
-        print("unable to do  egglaying analysis")
+        print("unable to perform egglaying analysis: csv file of egg counts not found")
+    except Exception as e:
+        print("unable to do egglaying analysis")
+        print(e)
+
     '''pausing'''
     try:
         pausing_df = fraction.load_fraction_files(basepath_tracking,
@@ -111,6 +126,9 @@ def female_behaviour(basefilenames, basepath_tracking, basepath_behaviour,
         print("unable to do pausing analysis")
     except IndexError:
         print("unable to perform pausing analysis: the file appears to be empty")
+    except Exception as e:
+        print("unable to do pausing analysis")
+        print(e)
 
     '''indices of male towards female'''
     try:
@@ -123,6 +141,9 @@ def female_behaviour(basefilenames, basepath_tracking, basepath_behaviour,
         print("unable to do indices analysis: no such file")
     except IndexError:
         print("unable to perform index analysis: the file appears to be empty")
+    except Exception as e:
+        print("unable to do indices analysis")
+        print(e)
 
     '''distance travelled'''
     try:
@@ -133,6 +154,23 @@ def female_behaviour(basefilenames, basepath_tracking, basepath_behaviour,
         print("unable to do distance travelled analysis: no such file")
     except IndexError:
         print("unable to perform distance travelled analysis: the file appears to be empty")
+    except Exception as e:
+        print(e)
+
+        '''virgin egglaying'''
+    if include_virgin_egglaying:
+        try:
+            egglaying.virgin_eggplot(basepath_behaviour,
+                                     excelfilenames,
+                                     outputpath_virgin_egglaying,
+                                     groupnames=groupnames,
+                                     colours=colours,
+                                     columname=columname_virgin_egg_counts,
+                                     sheetname=sheetname_virgin_egglaying)
+        except FileNotFoundError:
+            print("unable to do virgin egglaying analysis: excelfile not found")
+        except Exception as e:
+            print(e)
 
 
 def male_behaviour(basefilenames, basepath_tracking, basepath_behaviour,
@@ -170,6 +208,8 @@ def male_behaviour(basefilenames, basepath_tracking, basepath_behaviour,
                            hour=hour)
     except FileNotFoundError:
         print("unable to do time to copulation analysis: no such file")
+    except Exception as e:
+        print(e)
 
     '''indices of male towards female'''
     try:
@@ -183,6 +223,8 @@ def male_behaviour(basefilenames, basepath_tracking, basepath_behaviour,
     except IndexError:
         print("unable to perform index analysis: the file is empty")
         '''distance travelled of female paired with this male'''
+    except Exception as e:
+        print(e)
     try:
         dist = distancetravelled.load_dist_files(
             basepath_tracking, distfilenames)
@@ -193,6 +235,8 @@ def male_behaviour(basefilenames, basepath_tracking, basepath_behaviour,
         print("unable to do distance travelled analysis: no such file")
     except IndexError:
         print("unable to perform distance travelled analysis: the file appears to be empty")
+    except Exception as e:
+        print(e)
 
     '''bilateral wing extension'''
     try:
@@ -205,3 +249,5 @@ def male_behaviour(basefilenames, basepath_tracking, basepath_behaviour,
         print("unable to do distance travelled analysis: no such file")
     except IndexError:
         print("unable to perform distance travelled analysis: the file appears to be empty")
+    except Exception as e:
+        print(e)
