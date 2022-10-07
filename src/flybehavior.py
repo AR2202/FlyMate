@@ -60,6 +60,7 @@ def female_behaviour(basefilenames, basepath_tracking, basepath_behaviour,
                      colours=[['#bb44bb', '#d68ed6'], [
                          '#404040', '#737373'], ['#808080', '#b2b2b2']],
                      hour=True,
+                     ylim=(-0.1, 1),
                      include_virgin_egglaying=True,
                      sheetname_virgin_egglaying='virgin_egg_counts',
                      columname_virgin_egg_counts='group housed'):
@@ -136,7 +137,7 @@ def female_behaviour(basefilenames, basepath_tracking, basepath_behaviour,
                                                 indices_other_filenames,
                                                 groupnames=groupnames)
         indices.plot_indices(indices_df, basepath_tracking, outfilename,
-                             yaxlabels=yaxlabels_behaviour, colours=colours)
+                             yaxlabels=yaxlabels_behaviour, colours=colours, ylim=ylim)
     except FileNotFoundError:
         print("unable to do indices analysis: no such file")
     except IndexError:
@@ -179,7 +180,8 @@ def male_behaviour(basefilenames, basepath_tracking, basepath_behaviour,
                    yaxlabels_behaviour=[],
                    colours=[['#bb44bb', '#d68ed6'], [
                        '#404040', '#737373'], ['#808080', '#b2b2b2']],
-                   hour=True):
+                   hour=True,
+                   ylim=(-0.1, 1)):
     '''analyses files of standard male behaviour data'''
 
     timetocopfilenames = [basefilename +
@@ -217,7 +219,8 @@ def male_behaviour(basefilenames, basepath_tracking, basepath_behaviour,
                                                 indices_filenames,
                                                 groupnames=groupnames)
         indices.plot_indices(indices_df, basepath_tracking, outfilename,
-                             yaxlabels=yaxlabels_behaviour, colours=colours)
+                             yaxlabels=yaxlabels_behaviour, colours=colours,
+                             ylim=ylim)
     except FileNotFoundError:
         print("unable to do indices analysis: no such file")
     except IndexError:
@@ -240,14 +243,16 @@ def male_behaviour(basefilenames, basepath_tracking, basepath_behaviour,
 
     '''bilateral wing extension'''
     try:
-        bilat = bilateral.load_bilateral_file(
+        bilat = bilateral.load_bilateral_files(
             basepath_tracking, bilateralfilenames)
 
         bilateral.plot_bilateral(
-            bilat, bilatpath, yaxlabel='distance travelled female', colours=colours)
+            bilat, bilatpath, yaxlabel='bilateral wing extension',
+            colours=colours,
+            ylim=ylim)
     except FileNotFoundError:
-        print("unable to do distance travelled analysis: no such file")
+        print("unable to do bilateral wing extension analysis: no such file")
     except IndexError:
-        print("unable to perform distance travelled analysis: the file appears to be empty")
+        print("unable to perform bilateral wing extension analysis: the file appears to be empty")
     except Exception as e:
         print(e)
