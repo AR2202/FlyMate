@@ -266,6 +266,7 @@ def male_behaviour(basefilenames, basepath_tracking, basepath_behaviour,
                                     yaxlabel='velocity')
     except FileNotFoundError:
         print("unable to do velocity analysis: no such file")
+
     except IndexError:
         print("unable to perform velocity analysis: the file appears to be empty")
     except Exception as e:

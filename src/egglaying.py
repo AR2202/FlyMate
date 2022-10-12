@@ -90,7 +90,6 @@ def virgin_eggplots(basepath,
                              ['#808080', '#b2b2b2']],
                     sheetname='virgin_egg_counts',
                     columname='group housed',
-                    subsetcolumn='chamber id',
                     drop_duplicates=True):
     '''loads data and performs egglaying plots'''
 
@@ -101,7 +100,7 @@ def virgin_eggplots(basepath,
                         excel=True
                         )
     if drop_duplicates:
-        df = df.drop_duplicates(subset=subsetcolumn)
+        df = df.drop_duplicates()
 
     df = df[df[columname].notna()]
 
