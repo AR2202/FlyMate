@@ -83,6 +83,10 @@ def female_behaviour(basefilenames, basepath_tracking, basepath_behaviour,
                      '_mean_dist.mat' for basefilename in basefilenames]
     distanceplot = outfilename + '_distance_travelled.eps'
     distancepath = os.path.join(basepath_tracking, distanceplot)
+    velfilenames = [basefilename +
+                    '_mean_velocity.mat' for basefilename in basefilenames]
+    velocityplot = outfilename + '_velocity.eps'
+    velpath = os.path.join(basepath_tracking, velocityplot)
 
     pausingplot = outfilename + '_pausing.eps'
     outputpath_pausing = os.path.join(basepath_tracking, pausingplot)
@@ -158,16 +162,31 @@ def female_behaviour(basefilenames, basepath_tracking, basepath_behaviour,
     except Exception as e:
         print(e)
 
+    '''velocity'''
+    try:
+        vel = distancetravelled.load_dist_files(
+            basepath_tracking, velfilenames)
+        distancetravelled.plot_dist(vel, velpath,
+                                    colours=colours,
+                                    ylim=(0, 10),
+                                    yaxlabel='velocity')
+    except FileNotFoundError:
+        print("unable to do velocity analysis: no such file")
+    except IndexError:
+        print("unable to perform valocity analysis: the file appears to be empty")
+    except Exception as e:
+        print(e)
+
         '''virgin egglaying'''
     if include_virgin_egglaying:
         try:
-            egglaying.virgin_eggplot(basepath_behaviour,
-                                     excelfilenames,
-                                     outputpath_virgin_egglaying,
-                                     groupnames=groupnames,
-                                     colours=colours,
-                                     columname=columname_virgin_egg_counts,
-                                     sheetname=sheetname_virgin_egglaying)
+            egglaying.virgin_eggplots(basepath_behaviour,
+                                      excelfilenames,
+                                      outputpath_virgin_egglaying,
+                                      groupnames=groupnames,
+                                      colours=colours,
+                                      columname=columname_virgin_egg_counts,
+                                      sheetname=sheetname_virgin_egglaying)
         except FileNotFoundError:
             print("unable to do virgin egglaying analysis: excelfile not found")
         except Exception as e:
@@ -193,11 +212,20 @@ def male_behaviour(basefilenames, basepath_tracking, basepath_behaviour,
     outputpath_timetocop = os.path.join(basepath_behaviour, timetocopplot)
     distfilenames = [basefilename +
                      '_mean_dist_other.mat' for basefilename in basefilenames]
-    bilateralfilenames = [basefilename +
-                          '_bilateral_WingIndex.mat' for basefilename in basefilenames]
 
     distanceplot = outfilename + '_distance_travelled.eps'
     distancepath = os.path.join(basepath_tracking, distanceplot)
+    disttootherfilenames = [basefilename +
+                            '_mean_distance_to_other.mat' for basefilename in basefilenames]
+
+    disttootherplot = outfilename + '_distance_to_other.eps'
+    disttootherpath = os.path.join(basepath_tracking, disttootherplot)
+    velfilenames = [basefilename +
+                    '_mean_velocity.mat' for basefilename in basefilenames]
+    velocityplot = outfilename + '_velocity.eps'
+    velpath = os.path.join(basepath_tracking, velocityplot)
+    bilateralfilenames = [basefilename +
+                          '_bilateral_WingIndex.mat' for basefilename in basefilenames]
     bilatplot = outfilename + '_bilateral_wing_extension.eps'
     bilatpath = os.path.join(basepath_tracking, bilatplot)
     ''' time to copulation'''
@@ -225,9 +253,41 @@ def male_behaviour(basefilenames, basepath_tracking, basepath_behaviour,
         print("unable to do indices analysis: no such file")
     except IndexError:
         print("unable to perform index analysis: the file is empty")
-        '''distance travelled of female paired with this male'''
     except Exception as e:
         print(e)
+
+    '''velocity'''
+    try:
+        vel = distancetravelled.load_dist_files(
+            basepath_tracking, velfilenames)
+        distancetravelled.plot_dist(vel, velpath,
+                                    colours=colours,
+                                    ylim=(0, 10),
+                                    yaxlabel='velocity')
+    except FileNotFoundError:
+        print("unable to do velocity analysis: no such file")
+    except IndexError:
+        print("unable to perform velocity analysis: the file appears to be empty")
+    except Exception as e:
+        print(e)
+
+    '''distance to other'''
+    try:
+        disttoother = distancetravelled.load_dist_files(
+            basepath_tracking, disttootherfilenames)
+        distancetravelled.plot_dist(disttoother, disttootherpath,
+                                    colours=colours,
+                                    ylim=(0, 20),
+                                    yaxlabel='distance to other')
+    except FileNotFoundError:
+        print("unable to do distance to other analysis: no such file")
+    except IndexError:
+        print("unable to perform distance to other analysis: the file appears to be empty")
+    except Exception as e:
+        print(e)
+
+    '''distance travelled of female paired with this male'''
+
     try:
         dist = distancetravelled.load_dist_files(
             basepath_tracking, distfilenames)

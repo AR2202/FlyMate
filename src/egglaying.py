@@ -13,8 +13,9 @@ def read_egglaying(basepath,
                    filelist,
                    groupnames=[],
                    excel=False,
-                   sheetname='virgin_egg_counts',
-                   columname='group housed'
+                   sheetname='virgin_egg_counts'
+
+
                    ):
     '''loads the specified files into one dataframe'''
 
@@ -29,6 +30,7 @@ def read_egglaying(basepath,
 
         else:
             df = pd.read_csv(filepath, index_col=None, header=0)
+
         df["group"] = groupname
         li.append(df)
 
@@ -87,15 +89,21 @@ def virgin_eggplots(basepath,
                              ['#823082', '#E4B5E4'],
                              ['#808080', '#b2b2b2']],
                     sheetname='virgin_egg_counts',
-                    columname='group housed'):
+                    columname='group housed',
+                    subsetcolumn='chamber id',
+                    drop_duplicates=True):
     '''loads data and performs egglaying plots'''
 
     df = read_egglaying(basepath,
                         filelist,
                         groupnames=groupnames,
                         sheetname=sheetname,
-                        excel=True,
-                        columname=columname)
+                        excel=True
+                        )
+    if drop_duplicates:
+        df = df.drop_duplicates(subset=subsetcolumn)
+
+    df = df[df[columname].notna()]
 
     plotting.boxplot_groups(df, 'group',
                             columname,
