@@ -83,11 +83,22 @@ def female_behaviour(basefilenames, basepath_tracking, basepath_behaviour,
                      '_mean_dist.mat' for basefilename in basefilenames]
     distanceplot = outfilename + '_distance_travelled.eps'
     distancepath = os.path.join(basepath_tracking, distanceplot)
+    movefilenames = [basefilename +
+                     '_mean_time_to_move.mat' for basefilename in basefilenames]
+    moveplot = outfilename + '_time_to_move.eps'
+    movepath = os.path.join(basepath_tracking, moveplot)
+    delayfilenames = [basefilename +
+                      '_mean_difference_time_to_move.mat' for basefilename in basefilenames]
+    moveplot = outfilename + '_delay_move.eps'
+    movepath = os.path.join(basepath_tracking, moveplot)
     velfilenames = [basefilename +
                     '_mean_velocity.mat' for basefilename in basefilenames]
     velocityplot = outfilename + '_velocity.eps'
     velpath = os.path.join(basepath_tracking, velocityplot)
-
+    vel_filtered_filenames = [basefilename +
+                              '_mean_filtered_velocity.mat' for basefilename in basefilenames]
+    velocity_filtered_plot = outfilename + '_filtered_velocity.eps'
+    vel_filtered_path = os.path.join(basepath_tracking, velocity_filtered_plot)
     pausingplot = outfilename + '_pausing.eps'
     outputpath_pausing = os.path.join(basepath_tracking, pausingplot)
     outputpath_egglaying = os.path.join(basepath_behaviour, eggplotname)
@@ -162,6 +173,36 @@ def female_behaviour(basefilenames, basepath_tracking, basepath_behaviour,
     except Exception as e:
         print(e)
 
+        '''time to first movement'''
+    try:
+        move = distancetravelled.load_dist_files(
+            basepath_tracking, movefilenames)
+        distancetravelled.plot_dist(move, movepath,
+                                    colours=colours,
+                                    ylim=(0, 1000),
+                                    yaxlabel='time to first movement (s)')
+    except FileNotFoundError:
+        print("unable to do time to movement analysis: no such file")
+    except IndexError:
+        print("unable to perform time to movement analysis: the file appears to be empty")
+    except Exception as e:
+        print(e)
+
+        '''movement delay'''
+    try:
+        delay = distancetravelled.load_dist_files(
+            basepath_tracking, delayfilenames)
+        distancetravelled.plot_dist(delay, delaypath,
+                                    colours=colours,
+                                    ylim=(0, 1000),
+                                    yaxlabel='female - male movement dealy (s)')
+    except FileNotFoundError:
+        print("unable to do  movement delay analysis: no such file")
+    except IndexError:
+        print("unable to perform  movement delay analysis: the file appears to be empty")
+    except Exception as e:
+        print(e)
+
     '''velocity'''
     try:
         vel = distancetravelled.load_dist_files(
@@ -174,6 +215,21 @@ def female_behaviour(basefilenames, basepath_tracking, basepath_behaviour,
         print("unable to do velocity analysis: no such file")
     except IndexError:
         print("unable to perform valocity analysis: the file appears to be empty")
+    except Exception as e:
+        print(e)
+
+        '''velocity filtered by male courtship'''
+    try:
+        vel_filtered = distancetravelled.load_dist_files(
+            basepath_tracking, vel_filtered_filenames)
+        distancetravelled.plot_dist(vel_filtered, vel_filtered_path,
+                                    colours=colours,
+                                    ylim=(0, 10),
+                                    yaxlabel='velocity during male courtship')
+    except FileNotFoundError:
+        print("unable to do filtered velocity analysis: no such file")
+    except IndexError:
+        print("unable to perform filtered velocity analysis: the file appears to be empty")
     except Exception as e:
         print(e)
 
