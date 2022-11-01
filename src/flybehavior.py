@@ -11,7 +11,7 @@ import rpy2
 
 
 def write_csv_files(basefilenames, basepath_behaviour):
-    """read in excel file of behaviour data and make individual csv files for 
+    """read in excel file of behaviour data and make individual csv files for
     egglaying and time to copulation"""
 
     for basefile in basefilenames:
@@ -74,6 +74,7 @@ def female_behaviour(basefilenames, basepath_tracking, basepath_behaviour,
     timetocopfilenames = [basefilename +
                           '_timetocop.csv' for basefilename in basefilenames]
     timetocopplot = outfilename + '_timetocopulation.eps'
+    timetoinitplot = outfilename + '_timetoinit.eps'
     indices_other_filenames = [
         basefilename + '_Indices_other.mat' for basefilename in basefilenames]
     pausingfilenames = [
@@ -89,8 +90,8 @@ def female_behaviour(basefilenames, basepath_tracking, basepath_behaviour,
     movepath = os.path.join(basepath_tracking, moveplot)
     delayfilenames = [basefilename +
                       '_mean_difference_time_to_move.mat' for basefilename in basefilenames]
-    moveplot = outfilename + '_delay_move.eps'
-    movepath = os.path.join(basepath_tracking, moveplot)
+    delayplot = outfilename + '_delay_move.eps'
+    delaypath = os.path.join(basepath_tracking, delayplot)
     velfilenames = [basefilename +
                     '_mean_velocity.mat' for basefilename in basefilenames]
     velocityplot = outfilename + '_velocity.eps'
@@ -161,6 +162,24 @@ def female_behaviour(basefilenames, basepath_tracking, basepath_behaviour,
         print("unable to do indices analysis")
         print(e)
 
+    '''male courtship initiation towards female'''
+    try:
+        timetocop.kmf_plot(basepath_tracking, indices_other_filenames,
+                           timetoinitplot,
+                           groupnames=groupnames,
+                           xmin=15.0,
+                           copulation=False,
+                           in_min=False,
+                           in_frames=False,
+                           xlabel='s',
+                           ylabel='fraction initiated courtship')
+    except FileNotFoundError:
+        print("unable to do time to initiation analysis: no such file")
+    except IndexError:
+        print("unable to perform time to initiation analysis: the file appears to be empty")
+    except Exception as e:
+        print(e)
+
     '''distance travelled'''
     try:
         dist = distancetravelled.load_dist_files(
@@ -195,7 +214,7 @@ def female_behaviour(basefilenames, basepath_tracking, basepath_behaviour,
         distancetravelled.plot_dist(delay, delaypath,
                                     colours=colours,
                                     ylim=(0, 1000),
-                                    yaxlabel='female - male movement dealy (s)')
+                                    yaxlabel='female - male movement delay (s)')
     except FileNotFoundError:
         print("unable to do  movement delay analysis: no such file")
     except IndexError:
@@ -262,6 +281,7 @@ def male_behaviour(basefilenames, basepath_tracking, basepath_behaviour,
     timetocopfilenames = [basefilename +
                           '_timetocop.csv' for basefilename in basefilenames]
     timetocopplot = outfilename + '_timetocopulation.eps'
+    timetoinitplot = outfilename + '_timetoinit.eps'
     indices_filenames = [
         basefilename + '_Indices.mat' for basefilename in basefilenames]
 
@@ -276,6 +296,24 @@ def male_behaviour(basefilenames, basepath_tracking, basepath_behaviour,
 
     disttootherplot = outfilename + '_distance_to_other.eps'
     disttootherpath = os.path.join(basepath_tracking, disttootherplot)
+    timetodistfilenames = [basefilename +
+                           '_mean_time_to_dist.mat' for basefilename in basefilenames]
+
+    timetodistanceplot = outfilename + '_time_to_dist.eps'
+    timetodistancepath = os.path.join(basepath_tracking, timetodistanceplot)
+    touchfilenames = [basefilename +
+                      '_mean_time_to_leg_touch.mat' for basefilename in basefilenames]
+    touchplot = outfilename + '_time_to_leg_touch.eps'
+    touchpath = os.path.join(basepath_tracking, touchplot)
+    movefilenames = [basefilename +
+                     '_mean_time_to_move.mat' for basefilename in basefilenames]
+    moveplot = outfilename + '_time_to_move.eps'
+    movepath = os.path.join(basepath_tracking, moveplot)
+    delayfilenames = [basefilename +
+                      '_mean_difference_time_to_move.mat' for basefilename in basefilenames]
+    delayplot = outfilename + '_delay_move.eps'
+    delaypath = os.path.join(basepath_tracking, delayplot)
+
     velfilenames = [basefilename +
                     '_mean_velocity.mat' for basefilename in basefilenames]
     velocityplot = outfilename + '_velocity.eps'
@@ -312,6 +350,23 @@ def male_behaviour(basefilenames, basepath_tracking, basepath_behaviour,
     except Exception as e:
         print(e)
 
+    '''male courtship initiation towards female'''
+    try:
+        timetocop.kmf_plot(basepath_tracking, indices_filenames,
+                           timetoinitplot,
+                           groupnames=groupnames,
+                           xmin=15.0,
+                           copulation=False,
+                           in_min=False,
+                           in_frames=False,
+                           xlabel='s',
+                           ylabel='fraction initiated courtship')
+    except FileNotFoundError:
+        print("unable to do time to initiation analysis: no such file")
+    except IndexError:
+        print("unable to perform time to initiation analysis: the file appears to be empty")
+    except Exception as e:
+        print(e)
     '''velocity'''
     try:
         vel = distancetravelled.load_dist_files(
@@ -340,6 +395,64 @@ def male_behaviour(basefilenames, basepath_tracking, basepath_behaviour,
         print("unable to do distance to other analysis: no such file")
     except IndexError:
         print("unable to perform distance to other analysis: the file appears to be empty")
+    except Exception as e:
+        print(e)
+        '''time to leg touch'''
+    try:
+        leg_touch = distancetravelled.load_dist_files(
+            basepath_tracking, touchfilenames)
+        distancetravelled.plot_dist(leg_touch, touchpath,
+                                    colours=colours,
+                                    ylim=(0, 1000),
+                                    yaxlabel='time to first leg touch (s)')
+    except FileNotFoundError:
+        print("unable to do time to leg touch analysis: no such file")
+    except IndexError:
+        print("unable to perform time to leg touch analysis: the file appears to be empty")
+    except Exception as e:
+        print(e)
+        '''time to getting close together'''
+    try:
+        close_dist = distancetravelled.load_dist_files(
+            basepath_tracking, timetodistfilenames)
+        distancetravelled.plot_dist(close_dist, timetodistancepath,
+                                    colours=colours,
+                                    ylim=(0, 1000),
+                                    yaxlabel='time to first close encounter (s)')
+    except FileNotFoundError:
+        print("unable to do time to getting close analysis: no such file")
+    except IndexError:
+        print(
+            "unable to perform time to getting close analysis: the file appears to be empty")
+    except Exception as e:
+        print(e)
+        '''time to first movement'''
+    try:
+        move = distancetravelled.load_dist_files(
+            basepath_tracking, movefilenames)
+        distancetravelled.plot_dist(move, movepath,
+                                    colours=colours,
+                                    ylim=(0, 1000),
+                                    yaxlabel='time to first movement (s)')
+    except FileNotFoundError:
+        print("unable to do time to movement analysis: no such file")
+    except IndexError:
+        print("unable to perform time to movement analysis: the file appears to be empty")
+    except Exception as e:
+        print(e)
+
+        '''movement delay'''
+    try:
+        delay = distancetravelled.load_dist_files(
+            basepath_tracking, delayfilenames)
+        distancetravelled.plot_dist(delay, delaypath,
+                                    colours=colours,
+                                    ylim=(-500, 500),
+                                    yaxlabel='female - male movement delay (s)')
+    except FileNotFoundError:
+        print("unable to do  movement delay analysis: no such file")
+    except IndexError:
+        print("unable to perform  movement delay analysis: the file appears to be empty")
     except Exception as e:
         print(e)
 
