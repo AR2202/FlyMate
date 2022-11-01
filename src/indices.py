@@ -30,10 +30,8 @@ def load_indices_files(basepath, filelist, groupnames=[]):
     for (filename, groupname) in zip(filelist, groupnames):
         df = load_indices_file(basepath, filename)
         df["group"] = groupname
-        print(df["init"])
         init_first_removed = df.replace({"init": 0.04}, 900)
         init_nan_removed = init_first_removed.replace({"init": np.nan}, 900)
-        print(init_nan_removed["init"])
         li.append(init_nan_removed)
 
     dfs = pd.concat(li, axis=0, ignore_index=True)
